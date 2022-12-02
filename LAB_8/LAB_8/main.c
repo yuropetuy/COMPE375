@@ -81,11 +81,14 @@ int main(void)
 	
     while (1) 
     {
-		while(!(TIFR0 & (1<<OCF0B))); 
-		LEDOFF();
-		
-		while(!(TIFR0 & (1<<OCF0A)));
 		LEDON();
+		while(!(TIFR0 & (1<<OCF0B))); 
+		TIFR0 |= (1<<OCF0B);
+		
+		LEDOFF();
+		while(!(TIFR0 & (1<<OCF0A)));
+		TIFR0 |= (1<OCF0A);
+		
 	}
 }
 
