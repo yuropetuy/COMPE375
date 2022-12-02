@@ -7,11 +7,6 @@
 
 #include <avr/io.h>
 #include <avr/eeprom.h>
-<<<<<<< HEAD
-
-int main(void)
-{
-=======
 
 uint8_t EEMEM data = 0;
 
@@ -45,11 +40,11 @@ void Timer_Init()
 	TCCR0A |= (1<<WGM01);
 	
 	//Period is 5ms => OCRA: 156
-	//Prescale: 256
-	TCCR0B |= (1<<CS02);
+	//Prescale: 1024
+	TCCR0B |= (1<<CS00) | (1<<CS02);
 	
 	//Set OCR0A
-	OCR0A = 156;
+	OCR0A = 78;
 	
 	//Set OCR0B
 	OCR0B = (scale * 0.1) * OCR0A;
@@ -60,7 +55,7 @@ void Timer_Init()
 
 uint8_t Update_Val()
 {
-	uint8_t new_val = data;	
+	uint8_t new_val = eeprom_read_byte(&data);	
 	
 	if(new_val < 10)
 		new_val += 1;
@@ -83,7 +78,6 @@ int main(void)
 	LED_Init();    
 	Timer_Init();
 	EEPROM_Update();
->>>>>>> c9d35df676a26cd852ec0692b6023f1ed18527e1
 	
     while (1) 
     {
